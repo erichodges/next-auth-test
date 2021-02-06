@@ -1,6 +1,5 @@
 import Head from 'next/head';
 import { signIn, signOut, useSession } from 'next-auth/client';
-import styles from '../styles/Home.module.css';
 
 export default function Home() {
   const [session, loading] = useSession();
@@ -13,9 +12,23 @@ export default function Home() {
 
       <nav>
         {!session ? (
-          <button onClick={signIn}>SignIn</button>
+          <button onClick={() => signIn('github')}>SignIn with Github</button>
         ) : (
-          <button onClick={signOut}>SignOut</button>
+          <>
+            <span>
+              {session.user.image && (
+                <img
+                  src={session.user.image}
+                  style={{ width: '25px', borderRadius: '50%' }}
+                />
+              )}
+              {'\u00A0'}
+              {session.user.name}
+            </span>
+            {'\u00A0'}
+            {'\u00A0'}
+            <button onClick={signOut}>SignOut</button>
+          </>
         )}
       </nav>
     </>
